@@ -57,13 +57,31 @@ export default function Products() {
         <Grid container spacing={3}>
           {products.slice(2, 10).map((product) => (
             <Grid key={product.id} size={{ xs: 6, sm: 6, md: 4, lg: 3 }}>
-              <Card>
-                <CardMedia
+              <Card  sx={{
+                  height: {
+                    xs: "250px",
+                    sm:"260px",
+                    lg: "270px",
+                  },
+                }}>
+                <Box
                   sx={{
-                    height:"250px"
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
-                  image={product.thumbnail}
-                />
+                >
+                  <CardMedia
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "160px",
+                      width: "160px",
+                    }}
+                    image={product.thumbnail}
+                  />
+                </Box>
 
                 <CardContent
                   sx={{
@@ -77,7 +95,7 @@ export default function Products() {
                   <Typography
                     sx={{
                       fontSize: {
-                        xs: 14,
+                        xs: 10,
                         sm: 16,
                         md: 18,
                       },
@@ -101,8 +119,23 @@ export default function Products() {
                   </Typography>
 
                   <Stack direction="row" spacing={1}>
-                    <Rating value={product.rating} precision={0.5} readOnly />
-                    <Typography sx={{ fontSize: 14, color: "gray" }}>
+                    <Rating value={product.rating} precision={0.5} readOnly sx={{
+                      fontSize: {
+                        xs: 14,
+                        sm: 20,
+                        md: 22,
+                      },
+                      fontWeight: 600,
+                    }}/>
+                    <Typography sx={{
+                      fontSize: {
+                        xs: 10,
+                        sm: 16,
+                        md: 15,
+                      },
+        
+                      color:"gray"
+                    }}>
                       ({product.stock})
                     </Typography>
                   </Stack>
