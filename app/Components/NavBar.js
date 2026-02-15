@@ -17,7 +17,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import Badge from "@mui/material/Badge";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Typed from "typed.js";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 const Search = styled("div")(({ theme }) => ({
@@ -49,7 +49,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -58,14 +57,25 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-
 export default function NavBar() {
-  const typedRef = useRef(null);
+  const [search, setSearch] = useState("");
+  const typedRef = useRef(null);       
+  const typedInstance = useRef(null);  
+
+  function handleChangeSearch(e) {
+    setSearch(e.target.value);
+  }
 
   useEffect(() => {
     if (!typedRef.current) return;
 
-    const typed = new Typed(typedRef.current, {
+    if (search.length > 0) {
+      typedInstance.current?.destroy();
+      typedInstance.current = null;
+      return;
+    }
+
+    typedInstance.current = new Typed(typedRef.current, {
       strings: ["Bag", "Watch", "Laptop", "Phone", "Mascara"],
       typeSpeed: 40,
       backSpeed: 30,
@@ -73,8 +83,12 @@ export default function NavBar() {
       showCursor: false,
     });
 
-    return () => typed.destroy();
-  }, []);
+    return () => {
+      typedInstance.current?.destroy();
+      typedInstance.current = null;
+    };
+  }, [search]);
+
 
   const [navAnchorEl, setNavAnchorEl] = React.useState(null);
   const isNavMenuOpen = Boolean(navAnchorEl);
@@ -194,26 +208,26 @@ export default function NavBar() {
           >
             <MenuIcon />
           </IconButton>
-            <Typography
+          <Typography
             component={Link}
             href={"/"}
-              sx={{
-                fontWeight: 700,
-                whiteSpace: "nowrap",
-                margin: "10px",
-                fontSize: {
-                  xs: "16px",
-                  sm: "18px",
-                  md: "22px",
-                  lg: "26px",
-                },
-                flexShrink: 0,
-                color:"white",
-                textDecoration:"none"
-              }}
-            >
-              Flex Shop
-            </Typography>
+            sx={{
+              fontWeight: 700,
+              whiteSpace: "nowrap",
+              margin: "10px",
+              fontSize: {
+                xs: "16px",
+                sm: "18px",
+                md: "22px",
+                lg: "26px",
+              },
+              flexShrink: 0,
+              color: "white",
+              textDecoration: "none",
+            }}
+          >
+            Flex Shop
+          </Typography>
           <Box
             component={"ul"}
             sx={{
@@ -253,6 +267,7 @@ export default function NavBar() {
             <StyledInputBase
               placeholder=""
               inputProps={{ "aria-label": "search" }}
+              onChange={handleChangeSearch}
             />
             <span
               ref={typedRef}
