@@ -66,7 +66,7 @@ export default function AllProducts() {
               <Card
                 sx={{
                   height: {
-                    xs: "240px",
+                    xs: "250px",
                     sm: "290px",
                     lg: "300px",
                   },

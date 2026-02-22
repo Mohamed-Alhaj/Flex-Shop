@@ -1,4 +1,5 @@
 import { Typography, Box, Stack, Rating } from "@mui/material";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 export default function Reviewers({ product }) {
   return (
@@ -29,8 +30,17 @@ export default function Reviewers({ product }) {
           marginBottom:"20px"
         }}
       >
+        <Typography component="span" sx={{margin:"10px"}}>
+            <AccountCircleIcon color="primary" sx={{ fontSize: {
+              xs: "26px",
+              sm: "30px",
+              md: "34px",
+              lg: "38px",
+              xl: "42px",
+            },}}/>
+        </Typography>
         <Typography
-          component={"div"}
+          component="span"
           sx={{
             fontSize: {
               xs: "18px",
@@ -41,7 +51,7 @@ export default function Reviewers({ product }) {
             },
           }}
         >
-          {review.reviewerName}
+          <span style={{position:"relative",top:"3px"}}>{review.reviewerName}</span>
           <hr style={{ color: "#530840" }} />
           <div
             style={{

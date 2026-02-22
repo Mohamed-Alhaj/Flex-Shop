@@ -20,9 +20,15 @@ function GradientCircularProgress() {
 }
 export default function Loader() {
   return (
-    <Stack spacing={2} sx={{ flexGrow: 1,position:"relative",transform:"translate(50%)" }}>
+    <Stack
+      sx={{
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        paddingTop:"30px"
+      }}
+    >
       <GradientCircularProgress />
-      <br />
     </Stack>
   );
 }

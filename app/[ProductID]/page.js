@@ -1,126 +1,110 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useParams } from "next/navigation";
+
 import Loader from "../Components/Loader";
 import Reviewers from "../Components/Reviewers";
+import ProductCarousel from "../Components/ProductCarousel";
 import axios from "axios";
+
 import {
   Typography,
   Rating,
   Stack,
-  Card,
-  CardMedia,
-  Box,
-  CardContent,
   Container,
 } from "@mui/material";
-import ProductCarousel from "../Components/ProductCarousel";
-import { Padding } from "@mui/icons-material";
+
 import "animate.css";
 
 export default function Page() {
   const { ProductID } = useParams();
+
   const [product, setProduct] = useState(null);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    axios
-      .get(`https://dummyjson.com/products/${ProductID}`)
-      .then((res) => {
-        setProduct(res.data);
-      })
-      .catch((err) => console.log(err));
-  }, [ProductID]);
+ useEffect(() => {
+  const controller = new AbortController();
 
-  if (!product) {
-    return <Loader />;
-  }
+  axios
+    .get(`https://dummyjson.com/products/${ProductID}`, {
+      signal: controller.signal,
+    })
+    .then((res) => {
+      setProduct(res.data);
+    })
+    .catch((err) => {
+      if (err.name !== "CanceledError") {
+        setError("Failed to load product");
+      }
+    });
+
+  return () => controller.abort();
+}, [ProductID]);
+
+  const originalPrice = useMemo(() => {
+    if (!product) return 0;
+    return Math.floor(
+      product.price +
+        (product.discountPercentage * product.price) / 100
+    );
+  }, [product]);
+
+  if (!product && !error) return <Loader />;
+  if (error) return <Typography color="error">{error}</Typography>;
 
   return (
     <div>
       <ProductCarousel product={product} />
-      <Container maxWidth={"md"}>
-        <h4
-          className="animate__animated animate__bounceInLeft"
-          style={{ padding: "20px 20px 0", color: "#530840", display: "block" }}
+
+      <Container maxWidth="md">
+        <Typography
+          className="animate__animated animate__bounceInLeft animate__once"
+          sx={{
+            px: 2,
+            pt: 2,
+            fontSize: { xs: 18, sm: 20, md: 22, lg: 26 },
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
+          }}
+          color="primary"
         >
+          ${product.price}
           <Typography
+            component="span"
             sx={{
-              fontSize: { xs: 18, sm: 20, md: 22 },
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-            }}
-            color="primary"
-          >
-            ${product.price}
-            <Typography
-              component="span"
-              sx={{
-                color: "black",
-                textDecoration: "line-through",
-                fontSize: { xs: 12, sm: 14, md: 18, lg: 22 },
-              }}
-            >
-              $
-              {Math.floor(
-                product.price +
-                  (product.discountPercentage * product.price) / 100,
-              )}
-            </Typography>
-          </Typography>
-        </h4>
-        <hr />
-
-        <h4 style={{ padding: "10px 20px", color: "#530840" }}>
-          Product:{" "}
-          <span style={{ fontSize: "18px", color: "black" }}>
-            {product.title}
-          </span>
-        </h4>
-        <h4 style={{ padding: "10px 20px", color: "#530840" }}>
-          Brand:{" "}
-          <span style={{ fontSize: "18px", color: "black" }}>
-            {product.brand}
-          </span>
-        </h4>
-        <h4 style={{ padding: "10px 20px", color: "#530840" }}>
-          Description:{" "}
-          <span style={{ fontSize: "18px", color: "black" }}>
-            {product.description}
-          </span>
-        </h4>
-
-        <Stack direction="row" spacing={1} sx={{ padding: "5px 20px 10px" }}>
-          <Rating
-            value={product.rating}
-            precision={0.5}
-            readOnly
-            sx={{
-              fontSize: {
-                xs: 14,
-                sm: 20,
-                md: 22,
-              },
-            }}
-          />
-          <Typography
-            sx={{
-              fontSize: {
-                xs: 10,
-                sm: 16,
-                md: 15,
-              },
               color: "black",
+              textDecoration: "line-through",
+              fontSize: { xs: 14, sm: 16, md: 20, lg: 24 },
             }}
           >
-            ({product.rating})
+            ${originalPrice}
           </Typography>
-        </Stack>
+        </Typography>
+
         <hr />
-        <div style={{padding:"10px 20px"}}>
-          <Reviewers product={product}/>
-        </div>
+
+        <Typography sx={{ px: 2, py: 1 }}>
+          <strong>Product:</strong> {product.title}
+        </Typography>
+
+        <Typography sx={{ px: 2, py: 1 }}>
+          <strong>Brand:</strong> {product.brand}
+        </Typography>
+
+        <Typography sx={{ px: 2, py: 1 }}>
+          <strong>Description:</strong> {product.description}
+        </Typography>
+
+        <Stack direction="row" spacing={1} sx={{ px: 2, py: 1 }}>
+          <Rating value={product.rating} precision={0.5} readOnly />
+          <Typography>({product.rating})</Typography>
+        </Stack>
+
+        <hr />
+
+        <Reviewers product={product} />
       </Container>
     </div>
   );

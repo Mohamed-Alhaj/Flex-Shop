@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Container } from "@mui/material";
-import "../carousel.css"; // CSS تبع التأثي
+import "../carousel.css";
 const images = [
   { src: "https://cdn.shopify.com/s/files/1/0643/9262/6408/files/image7_3aaa8d56-05f0-4c42-b64f-4da859a33e98.png?v=1708781837", alt: "IMG1" },
   { src: "https://m.media-amazon.com/images/I/71tiGEHRTmL._UF894,1000_QL80_.jpg", alt: "IMG2" },
@@ -12,6 +12,7 @@ const images = [
 ];
 
 export default function Carousel2() {
+
   const [selectedIndex, setSelectedIndex] = useState(3);
 
   const moveToSelected = (direction) => {
@@ -19,10 +20,19 @@ export default function Carousel2() {
       setSelectedIndex((prev) => (prev + 1) % images.length);
     } else {
       setSelectedIndex((prev) =>
-        prev === 0 ? images.length - 1 : prev - 1
+        prev === 0 ? images.length : prev - 1
       );
     }
   };
+
+  useEffect(() => {
+  const interval = setInterval(() => {
+    moveToSelected("next");
+  }, 2000);
+
+  return () => clearInterval(interval);
+}, []);
+
 
   const getClassName = (index) => {
     const relativeIndex =
