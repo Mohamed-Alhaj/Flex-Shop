@@ -24,11 +24,8 @@ export default function Page() {
   const [error, setError] = useState(null);
 
  useEffect(() => {
-  const controller = new AbortController();
-
   axios
     .get(`https://dummyjson.com/products/${ProductID}`, {
-      signal: controller.signal,
     })
     .then((res) => {
       setProduct(res.data);
@@ -39,7 +36,6 @@ export default function Page() {
       }
     });
 
-  return () => controller.abort();
 }, [ProductID]);
 
   const originalPrice = useMemo(() => {

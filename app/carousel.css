@@ -47,7 +47,7 @@
 #carousel img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit:fill;
   transition: transform 0.5s ease, filter 0.5s ease;
 }
 
@@ -65,9 +65,10 @@
   pointer-events: none;
 }
 
-#carousel div:hover img {
+#carousel div img {
   filter: brightness(70%);
   transform: scale(1.2);
+
 }
 
 #carousel div:hover .img-text {
@@ -252,6 +253,10 @@
     height: 36px;
     margin: 0 10px;
   }
+}
+.textOn{
+  z-index: 2;
+  position: absolute;
 }
 
 

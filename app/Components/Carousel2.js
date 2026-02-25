@@ -1,14 +1,15 @@
 "use client";
 
 import { useState,useEffect } from "react";
-import { Container } from "@mui/material";
+import { Container, Typography } from "@mui/material";
+import Link from "next/link";
 import "../carousel.css";
 const images = [
-  { src: "https://cdn.shopify.com/s/files/1/0643/9262/6408/files/image7_3aaa8d56-05f0-4c42-b64f-4da859a33e98.png?v=1708781837", alt: "IMG1" },
-  { src: "https://m.media-amazon.com/images/I/71tiGEHRTmL._UF894,1000_QL80_.jpg", alt: "IMG2" },
-  { src: "https://a.storyblok.com/f/165154/1456x816/50eaf9d668/01_hero_product-variants-the-guide-to-diversifying-offerings.png/m/", alt: "IMG3" },
-  { src: "https://5.imimg.com/data5/SELLER/Default/2024/2/392237709/AO/CQ/LJ/9277553/all-cosmetic-and-beauty-products-500x500.png", alt: "IMG4" },
-  { src: "https://image.made-in-china.com/250f0j00EYRGJfbCRQlI/What-Are-the-Most-Trending-E-Commerce-Products-Dominating-2025-.jpg", alt: "IMG5" },
+  { src: "/Images/laptops.webp", alt: "IMG1" },
+  { src: "/Images/watches.jpg", alt: "IMG2" },
+  { src: "/Images/mobiles.jpg", alt: "IMG3" },
+  { src: "/Images/jewellery.jpg", alt: "IMG4" },
+  { src: "/Images/decoration.webp", alt: "IMG5" },
 ];
 
 export default function Carousel2() {
@@ -20,7 +21,7 @@ export default function Carousel2() {
       setSelectedIndex((prev) => (prev + 1) % images.length);
     } else {
       setSelectedIndex((prev) =>
-        prev === 0 ? images.length : prev - 1
+        prev === 0 ? images.length-1 : prev - 1
       );
     }
   };
@@ -51,12 +52,19 @@ export default function Carousel2() {
     <div id="carousel-area">
       <div id="carousel">
         {images.map((image, index) => (
-          <div className={getClassName(index)} key={index}>
+          <Link href="/Jewellery" key={index}>
+          <div className={getClassName(index)}>
             <div className="img-wrap">
               <span className="img-text">{image.alt}</span>
+               <Typography sx={
+                { fontSize: { xs: 18, sm: 22, md: 26, lg: 34 },
+                 color:"#fff"
+                  }
+               } className="textOn">{index===0?"Laptops":index===1?"Watches":index===2?"Phones":index===3?"jewelry":index===4?"Decoration":index===5?"Beauty":""}</Typography>
               <img src={image.src} alt={image.alt} />
             </div>
           </div>
+          </Link>
         ))}
       </div>
 
