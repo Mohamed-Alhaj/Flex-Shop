@@ -52,7 +52,7 @@ export default function Carousel2() {
     <div id="carousel-area">
       <div id="carousel">
         {images.map((image, index) => (
-          <Link href="/Jewellery" key={index}>
+          <Link href={index===0?"/Laptops":index===2?"/Mobiles":index===3?"/Jewelry":index===4?"/Decoration":"/Watches"} key={index}>
           <div className={getClassName(index)}>
             <div className="img-wrap">
               <span className="img-text">{image.alt}</span>
@@ -60,7 +60,7 @@ export default function Carousel2() {
                 { fontSize: { xs: 18, sm: 22, md: 26, lg: 34 },
                  color:"#fff"
                   }
-               } className="textOn">{index===0?"Laptops":index===1?"Watches":index===2?"Phones":index===3?"jewelry":index===4?"Decoration":index===5?"Beauty":""}</Typography>
+               } className="textOn">{index===0?"Laptops":index===1?"Watches":index===2?"Mobiles":index===3?"jewelry":index===4?"Decoration":index===5?"Beauty":""}</Typography>
               <img src={image.src} alt={image.alt} />
             </div>
           </div>

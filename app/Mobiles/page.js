@@ -20,7 +20,7 @@ export default function AllProducts() {
 
   useEffect(() => {
     axios
-      .get("https://dummyjson.com/products?limit=194")
+      .get("https://dummyjson.com/products/category/smartphones")
       .then((response) => {
         setProducts(response.data.products);
         console.log(response.data.products);
@@ -41,7 +41,7 @@ export default function AllProducts() {
             color: "white",
           }}
         >
-          Jewelry
+          Mobiles
         </h1>
         <hr />
         {/* Products Cards */}
@@ -61,7 +61,7 @@ export default function AllProducts() {
             ):(
           products.map((product) => (
              
-            <Grid key={product.id} size={{ xs: 6, sm: 6, md: 4, lg: 3 }}>
+            <Grid key={product.id} size={{ xs: 6, sm: 6, md: 4, lg: 3 }} sx={{margin:"auto"}}>
               <Link href={`/${product.id}`} style={{ textDecoration: "none" }}>
               <Card
                 sx={{
