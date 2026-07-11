@@ -2,7 +2,7 @@ import { Box, Typography, Container, Grid } from "@mui/material";
 
 export default function About() {
   return (
-    <Box sx={{ backgroundColor: "black", color: "white", py: 4 }}>
+    <Box sx={{ backgroundColor: "black", color: "white", py: 4 }} id="about">
       <Container>
         <Box sx={{ padding: "20px" }}>
           <Typography

@@ -29,7 +29,7 @@ export default function ProductCarousel({ product }) {
   }, [allLoaded]);
 
   return (
-    <Box sx={{ backgroundColor: "primary.main", position: "relative" }}>
+    <Box sx={{ backgroundColor: "primary.main", position: "relative"}}>
       {/* 🔵 Loader فوق الصور */}
       {!allLoaded && <Loader />}
 
@@ -37,7 +37,7 @@ export default function ProductCarousel({ product }) {
         <div
           id="carouselExampleAutoplaying"
           className="carousel slide"
-          style={{ visibility: allLoaded ? "visible" : "hidden" }}
+          style={{ visibility: allLoaded ? "visible" : "hidden"}}
         >
           <div className="carousel-inner">
             {images.map((img, i) => (

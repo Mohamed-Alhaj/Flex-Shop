@@ -3,7 +3,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 export default function Reviewers({ product }) {
   return (
-    <div>
+    <div style={{marginBottom:"80px"}}>
       <Typography
         sx={{
           padding: "0 0 10px",

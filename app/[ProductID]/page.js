@@ -5,7 +5,9 @@ import { useParams } from "next/navigation";
 
 import Loader from "../Components/Loader";
 import Reviewers from "../Components/Reviewers";
+import ProductBottomBar from "../Components/ProductBottomBar"
 import ProductCarousel from "../Components/ProductCarousel";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import axios from "axios";
 
 import {
@@ -52,8 +54,8 @@ export default function Page() {
   return (
     <div>
       <ProductCarousel product={product} />
-
       <Container maxWidth="md">
+        <FavoriteIcon/>
         <Typography
           className="animate__animated animate__bounceInLeft animate__once"
           sx={{
@@ -100,7 +102,8 @@ export default function Page() {
 
         <hr />
 
-        <Reviewers product={product} />
+        <Reviewers product={product}/>
+        <ProductBottomBar product={product}/>
       </Container>
     </div>
   );

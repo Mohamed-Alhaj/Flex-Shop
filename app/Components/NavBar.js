@@ -19,7 +19,17 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Typed from "typed.js";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { prostoOne } from "../Fonts";
+import { useCart } from "../Contexts/CartContext";
+import dynamic from "next/dynamic";
+import { useFavorite } from "../Contexts/FavoriteContext";
 
+const CartBadge = dynamic(() => import("./CartBadge"), {
+  ssr: false,
+});
+const FavoriteBadge = dynamic(() => import("./FavoriteBadge"), {
+  ssr: false,
+});
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -58,9 +68,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 export default function NavBar() {
+  const { totalItems } = useCart();
+  const { totalFavorites } = useFavorite();
   const [search, setSearch] = useState("");
-  const typedRef = useRef(null);       
-  const typedInstance = useRef(null);  
+  const typedRef = useRef(null);
+  const typedInstance = useRef(null);
 
   function handleChangeSearch(e) {
     setSearch(e.target.value);
@@ -88,7 +100,6 @@ export default function NavBar() {
       typedInstance.current = null;
     };
   }, [search]);
-
 
   const [navAnchorEl, setNavAnchorEl] = React.useState(null);
   const isNavMenuOpen = Boolean(navAnchorEl);
@@ -160,30 +171,34 @@ export default function NavBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={2} color="error">
-            <ShoppingCartOutlinedIcon />
-          </Badge>
-        </IconButton>
-        <Typography component="span" sx={{ ml: 1 }}>
-          Messages
-        </Typography>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <FavoriteBorderIcon />
-          </Badge>
-        </IconButton>
-        <Typography component="span" sx={{ ml: 1 }}>
-          Notifications
-        </Typography>
-      </MenuItem>
+      <Link sx={{textDecoration:"none",color:"purple"}} href="/Cart">
+        <MenuItem>
+          <IconButton
+            size="large"
+            aria-label="show 4 new mails"
+            color="inherit"
+          >
+            <CartBadge />
+          </IconButton>
+          <Typography component="span" sx={{ ml: 1 }}>
+            Cart
+          </Typography>
+        </MenuItem>
+      </Link>
+      <Link sx={{textDecoration:"none",color:"purple"}} href="/Favorite">
+        <MenuItem>
+          <IconButton
+            size="large"
+            aria-label="show 17 new notifications"
+            color="inherit"
+          >
+            <FavoriteBadge />
+          </IconButton>
+          <Typography component="span" sx={{ ml: 1 }}>
+            Favorites
+          </Typography>
+        </MenuItem>
+      </Link>
     </Menu>
   );
 
@@ -224,6 +239,7 @@ export default function NavBar() {
               flexShrink: 0,
               color: "white",
               textDecoration: "none",
+              fontFamily: prostoOne.style.fontFamily,
             }}
           >
             Flex Shop
@@ -254,10 +270,10 @@ export default function NavBar() {
               <Link href="/">Home</Link>
             </li>
             <li>
-              <Link href="/">Contact</Link>
+              <Link href="/contact">Contact</Link>
             </li>
             <li>
-              <Link href="/">About</Link>
+              <Link href="/about">About</Link>
             </li>
           </Box>
           <Search sx={{ margin: "20px 0" }}>
@@ -290,18 +306,18 @@ export default function NavBar() {
               aria-label="show 4 new mails"
               color="inherit"
             >
-              <Badge badgeContent={2} color="error">
-                <ShoppingCartOutlinedIcon />
-              </Badge>
+              <Link href={"/cart"} style={{ color: "white" }}>
+                <CartBadge />
+              </Link>
             </IconButton>
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={17} color="error">
-                <FavoriteBorderIcon />
-              </Badge>
+              <Link href={"/Favorite"} style={{ color: "white" }}>
+                <FavoriteBadge />
+              </Link>
             </IconButton>
             <IconButton
               size="large"
@@ -337,7 +353,7 @@ export default function NavBar() {
             </MenuItem>
             <MenuItem onClick={handleCloseNavMenu}>
               <Link
-                href="/"
+                href="/contact"
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 Contact
@@ -345,7 +361,7 @@ export default function NavBar() {
             </MenuItem>
             <MenuItem onClick={handleCloseNavMenu}>
               <Link
-                href="/"
+                href="/about"
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 About

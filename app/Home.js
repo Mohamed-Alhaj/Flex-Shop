@@ -10,7 +10,6 @@ import About from "./Components/Footer";
 export default function Home() {
   return (
     <>
-      <NavBar />
       <Carousel2 />
       <Products />
       <Categories />
