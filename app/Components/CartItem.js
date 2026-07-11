@@ -1,10 +1,4 @@
-import {
-  Box,
-  Card,
-  CardMedia,
-  Typography,
-  IconButton,
-} from "@mui/material";
+import { Box, Card, CardMedia, Typography, IconButton } from "@mui/material";
 
 import { useCart } from "../Contexts/CartContext";
 import AddIcon from "@mui/icons-material/Add";

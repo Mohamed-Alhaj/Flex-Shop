@@ -171,7 +171,7 @@ export default function NavBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <Link sx={{textDecoration:"none",color:"purple"}} href="/Cart">
+      <Link style={{textDecoration:"none",color:"purple"}} href="/cart">
         <MenuItem>
           <IconButton
             size="large"
@@ -185,7 +185,7 @@ export default function NavBar() {
           </Typography>
         </MenuItem>
       </Link>
-      <Link sx={{textDecoration:"none",color:"purple"}} href="/Favorite">
+      <Link style={{textDecoration:"none",color:"purple"}} href="/Favorite">
         <MenuItem>
           <IconButton
             size="large"
