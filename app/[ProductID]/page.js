@@ -55,7 +55,6 @@ export default function Page() {
     <div>
       <ProductCarousel product={product} />
       <Container maxWidth="md">
-        <FavoriteIcon/>
         <Typography
           className="animate__animated animate__bounceInLeft animate__once"
           sx={{

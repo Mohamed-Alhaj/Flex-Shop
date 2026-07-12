@@ -70,6 +70,20 @@ export default function CartProvider({ children }) {
     0,
   );
 
+  function toggleCart(product) {
+    const exist = cartItems.find((item) => item.id === product.id);
+
+    if (exist) {
+      removeItem(product.id);
+    } else {
+      addItemToCart(product);
+    }
+  }
+
+  function isInCart(id) {
+    return cartItems.some((item) => item.id === id);
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -80,6 +94,8 @@ export default function CartProvider({ children }) {
         removeItem,
         totalPrice,
         totalItems,
+        toggleCart,
+        isInCart
       }}
     >
       {children}

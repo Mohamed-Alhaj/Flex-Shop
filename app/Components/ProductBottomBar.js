@@ -6,7 +6,7 @@ import { useCart } from "../Contexts/CartContext";
 import { useFavorite } from "../Contexts/FavoriteContext";
 
 export default function ProductBottomBar({ product }) {
-  const { addItemToCart } = useCart();
+  const { toggleCart, isInCart } = useCart();
   const [open, setOpen] = useState(false);
   const { toggleFavorite, isFavorite } = useFavorite();
 
@@ -28,13 +28,14 @@ export default function ProductBottomBar({ product }) {
       >
         <Button
           variant="contained"
+          color={isInCart(product.id) ? "error" : "primary"}
           onClick={() => {
-            addItemToCart(product);
+            toggleCart(product);
             setOpen(true);
           }}
-          sx={{ flex: 1, background: "#310853" }}
+          sx={{ flex: 1 }}
         >
-          Add to Cart 🛒
+          {isInCart(product.id) ? "Remove from Cart 🗑️" : "Add to Cart 🛒"}
         </Button>
 
         <Button
@@ -54,8 +55,13 @@ export default function ProductBottomBar({ product }) {
         autoHideDuration={3000}
         onClose={() => setOpen(false)}
       >
-        <Alert severity="success" variant="filled">
-          Product added to cart 👍
+        <Alert
+          severity={isInCart(product.id) ? "success" : "error"}
+          variant="filled"
+        >
+          {isInCart(product.id)
+            ? "Product added to cart 👍"
+            : "Product removed from cart 🗑️"}
         </Alert>
       </Snackbar>
     </>
